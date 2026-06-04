@@ -1,0 +1,2864 @@
+<!DOCTYPE html>
+<!--
+  ╔══════════════════════════════════════════════════════════════════╗
+  ║          CodeAcademy Pro — Plataforma de Aprendizaje            ║
+  ║          Creada para enseñar: HTML, CSS, JavaScript, C++        ║
+  ║                                                                  ║
+  ║  ESTRUCTURA GENERAL DEL ARCHIVO:                                 ║
+  ║  1. <head>        — Metadatos, fuentes, estilos CSS             ║
+  ║  2. <body>        — Todo el contenido visible de la página      ║
+  ║     - Pantalla de login con Google                               ║
+  ║     - Header / navegación                                        ║
+  ║     - Sección Hero (bienvenida principal)                        ║
+  ║     - Sección de cursos (HTML, CSS, JS, C++)                    ║
+  ║     - Sección de videos                                          ║
+  ║     - Sección de editor de código interactivo                   ║
+  ║     - Sección de comunidad / estadísticas                       ║
+  ║     - Footer                                                     ║
+  ║  3. <script>      — Toda la lógica JavaScript al final          ║
+  ╚══════════════════════════════════════════════════════════════════╝
+-->
+<html lang="es">
+<head>
+  <!-- ═══════════════════════════════════════════════
+       META TAGS — Configuración básica del documento
+       charset: define el conjunto de caracteres (UTF-8 soporta todos los idiomas)
+       viewport: hace la página responsiva en móviles
+       description: texto que muestran los buscadores
+       ═══════════════════════════════════════════════ -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Aprende programación con CodeAcademy Pro: HTML, CSS, JavaScript y C++ con videos, ejemplos interactivos y proyectos reales." />
+  <title>CodeAcademy Pro | Aprende a Programar</title>
+
+  <!-- ═══════════════════════════════════════════════
+       GOOGLE FONTS — Tipografías especiales
+       Se cargan desde los servidores de Google
+       'Space Mono' = fuente monoespaciada (para código)
+       'Syne'       = fuente display moderna
+       'DM Sans'    = fuente body legible
+       ═══════════════════════════════════════════════ -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- ═══════════════════════════════════════════════
+       GOOGLE IDENTITY SERVICES (GSI)
+       Librería oficial de Google para autenticación
+       Permite el botón "Iniciar sesión con Google"
+       ═══════════════════════════════════════════════ -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+  <!-- ═══════════════════════════════════════════════
+       FONT AWESOME — Iconos vectoriales
+       CDN = red de distribución de contenido (carga rápida)
+       Uso: <i class="fas fa-code"></i>
+       ═══════════════════════════════════════════════ -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- ══════════════════════════════════════════════════════════════
+       CSS — ESTILOS VISUALES DE TODA LA PÁGINA
+       CSS = Cascading Style Sheets (Hojas de Estilo en Cascada)
+       Define colores, tamaños, posiciones, animaciones, etc.
+       ══════════════════════════════════════════════════════════════ -->
+  <style>
+    /* ─────────────────────────────────────────────────────────────
+       VARIABLES CSS (Custom Properties)
+       Se declaran con --nombre y se usan con var(--nombre)
+       Ventaja: cambiar un color aquí lo cambia en TODA la página
+       ───────────────────────────────────────────────────────────── */
+    :root {
+      --bg-dark:      #0a0a0f;   /* Fondo principal oscuro casi negro */
+      --bg-card:      #111118;   /* Fondo de tarjetas */
+      --bg-glass:     rgba(255,255,255,0.04); /* Efecto cristal translúcido */
+      --accent-green: #00ff88;   /* Verde neón principal */
+      --accent-blue:  #00b4ff;   /* Azul eléctrico secundario */
+      --accent-purple:#b347ff;   /* Púrpura para C++ */
+      --accent-orange:#ff6b35;   /* Naranja para HTML */
+      --text-primary: #f0f0f5;   /* Texto principal claro */
+      --text-muted:   #7a7a9a;   /* Texto secundario apagado */
+      --border:       rgba(255,255,255,0.08); /* Bordes sutiles */
+      --glow-green:   0 0 30px rgba(0,255,136,0.3); /* Sombra brillante verde */
+      --glow-blue:    0 0 30px rgba(0,180,255,0.3); /* Sombra brillante azul */
+      --radius-lg:    16px;      /* Redondeo grande de esquinas */
+      --radius-md:    10px;      /* Redondeo mediano */
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       RESET CSS
+       Elimina márgenes/padding predeterminados del navegador
+       box-sizing: border-box = el padding NO aumenta el tamaño total
+       ───────────────────────────────────────────────────────────── */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       ESTILOS BASE DEL DOCUMENTO
+       scroll-behavior: smooth = desplazamiento suave al hacer clic
+       en enlaces de anclaje (#seccion)
+       ───────────────────────────────────────────────────────────── */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif; /* Fuente principal del texto */
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      overflow-x: hidden; /* Evita scroll horizontal no deseado */
+      line-height: 1.6;
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       PANTALLA DE LOGIN
+       position: fixed = flota sobre TODO el contenido
+       z-index: 9999 = capa más alta (visible sobre todo)
+       display: flex = activa Flexbox para centrar contenido
+       ───────────────────────────────────────────────────────────── */
+    #login-screen {
+      position: fixed;
+      inset: 0; /* shorthand para top/right/bottom/left: 0 */
+      background: radial-gradient(ellipse at 30% 50%, #0d1f0f 0%, #050508 60%);
+      display: flex;
+      align-items: center;     /* Centrado vertical */
+      justify-content: center; /* Centrado horizontal */
+      z-index: 9999;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+
+    /* Cuando se oculta el login, se hace invisible con transición */
+    #login-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none; /* Deja de capturar clics */
+    }
+
+    /* Partículas decorativas animadas en el fondo del login */
+    .login-particles {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none; /* No interactúa con el mouse */
+    }
+
+    /* Cada partícula es un <span> posicionado de forma aleatoria */
+    .particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: var(--accent-green);
+      border-radius: 50%; /* Hace el div circular */
+      animation: floatUp 8s infinite linear; /* Animación continua */
+      opacity: 0.6;
+    }
+
+    /* @keyframes define los fotogramas de una animación CSS */
+    @keyframes floatUp {
+      0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.6; }
+      100% { transform: translateY(-100px) scale(1.5); opacity: 0; }
+    }
+
+    /* Tarjeta del formulario de login */
+    .login-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 3rem 2.5rem;
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+      position: relative;
+      z-index: 1; /* Sobre las partículas */
+      box-shadow: 0 40px 80px rgba(0,0,0,0.6), var(--glow-green);
+      /* backdrop-filter: blur = efecto cristal esmerilado */
+      backdrop-filter: blur(10px);
+    }
+
+    /* Logo animado con rotación de colores */
+    .login-logo {
+      width: 72px;
+      height: 72px;
+      background: linear-gradient(135deg, var(--accent-green), var(--accent-blue));
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      font-size: 2rem;
+      animation: logoPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes logoPulse {
+      0%, 100% { box-shadow: 0 0 20px rgba(0,255,136,0.4); }
+      50%       { box-shadow: 0 0 40px rgba(0,180,255,0.6); }
+    }
+
+    .login-card h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, var(--accent-green), var(--accent-blue));
+      /* Truco para texto con gradiente en CSS */
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .login-card p {
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      font-size: 0.95rem;
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       BOTÓN DE GOOGLE
+       Estilo personalizado que imita el diseño oficial de Google
+       ───────────────────────────────────────────────────────────── */
+    .google-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      width: 100%;
+      padding: 14px 20px;
+      background: #fff;
+      color: #333;
+      border: none;
+      border-radius: var(--radius-md);
+      font-size: 0.95rem;
+      font-weight: 500;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer; /* Mano al pasar sobre el botón */
+      transition: all 0.2s ease; /* Transición suave en hover */
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+
+    .google-btn:hover {
+      transform: translateY(-2px); /* Sube 2px al pasar el mouse */
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    }
+
+    .google-btn img {
+      width: 22px;
+      height: 22px;
+    }
+
+    /* Divisor "o también" */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 1.5rem 0;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1; /* Ocupa el espacio restante */
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* Botón alternativo (demo sin Google real) */
+    .demo-btn {
+      width: 100%;
+      padding: 13px 20px;
+      background: linear-gradient(135deg, var(--accent-green), #00cc70);
+      color: #000;
+      border: none;
+      border-radius: var(--radius-md);
+      font-size: 0.95rem;
+      font-weight: 600;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      letter-spacing: 0.3px;
+    }
+
+    .demo-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--glow-green);
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       HEADER / BARRA DE NAVEGACIÓN
+       position: sticky = se queda fija al hacer scroll
+       top: 0 = pegada a la parte superior de la pantalla
+       backdrop-filter: blur = efecto vidrio sobre el contenido
+       ───────────────────────────────────────────────────────────── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10,10,15,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+    }
+
+    nav {
+      max-width: 1200px;  /* Ancho máximo del contenido */
+      margin: 0 auto;     /* Centrado horizontal */
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 70px;
+    }
+
+    /* Logo del header */
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text-primary);
+      font-family: 'Syne', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 800;
+    }
+
+    .nav-logo-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--accent-green), var(--accent-blue));
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+
+    /* Links de navegación */
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none; /* Quita los puntos de la lista */
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent-green);
+    }
+
+    /* Avatar del usuario (visible tras el login) */
+    #user-info {
+      display: none; /* Oculto hasta iniciar sesión */
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    #user-info.visible {
+      display: flex;
+    }
+
+    #user-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 2px solid var(--accent-green);
+      object-fit: cover; /* La imagen no se deforma */
+    }
+
+    #user-name {
+      font-size: 0.9rem;
+      color: var(--text-primary);
+      max-width: 120px;
+      overflow: hidden;
+      text-overflow: ellipsis; /* "..." si el texto es muy largo */
+      white-space: nowrap;
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       SECCIÓN HERO — Presentación principal
+       min-height: 100vh = ocupa al menos toda la pantalla
+       ───────────────────────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding: 2rem;
+    }
+
+    /* Fondo animado con gradientes en movimiento */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 80% at 70% 50%, rgba(0,255,136,0.06) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 60% at 20% 80%, rgba(0,180,255,0.05) 0%, transparent 70%),
+        var(--bg-dark);
+      z-index: 0;
+    }
+
+    /* Grid punteado decorativo en el fondo */
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px);
+      background-size: 40px 40px;
+      z-index: 0;
+      mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+    }
+
+    .hero-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr; /* Dos columnas iguales */
+      gap: 4rem;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Badge superior "Plataforma #1" */
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0,255,136,0.08);
+      border: 1px solid rgba(0,255,136,0.2);
+      color: var(--accent-green);
+      padding: 6px 16px;
+      border-radius: 100px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.5px;
+    }
+
+    .hero-text h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 4rem); /* Tamaño responsivo con clamp() */
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Palabras en gradiente dentro del h1 */
+    .hero-text h1 span {
+      background: linear-gradient(135deg, var(--accent-green) 0%, var(--accent-blue) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-text p {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      margin-bottom: 2.5rem;
+      max-width: 480px;
+      line-height: 1.7;
+    }
+
+    /* Botones CTA (Call To Action) */
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap; /* Se envuelven en pantallas pequeñas */
+    }
+
+    /* Botón primario con relleno */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      background: linear-gradient(135deg, var(--accent-green), #00cc70);
+      color: #000;
+      border: none;
+      border-radius: var(--radius-md);
+      font-size: 0.95rem;
+      font-weight: 600;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.25s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--glow-green);
+    }
+
+    /* Botón secundario con borde */
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      font-size: 0.95rem;
+      font-weight: 500;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.25s ease;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
+      transform: translateY(-3px);
+    }
+
+    /* Panel de código animado en el lado derecho del hero */
+    .hero-code {
+      background: #0d1117; /* Color similar a GitHub */
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.5), var(--glow-blue);
+      animation: floatCard 5s ease-in-out infinite;
+    }
+
+    /* Animación de flotación suave */
+    @keyframes floatCard {
+      0%, 100% { transform: translateY(0px) rotate(0.5deg); }
+      50%       { transform: translateY(-15px) rotate(-0.5deg); }
+    }
+
+    /* Barra de título del editor (los 3 puntos de colores) */
+    .code-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 16px;
+      background: #161b22;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .code-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .code-dot.red   { background: #ff5f56; }
+    .code-dot.yellow{ background: #ffbd2e; }
+    .code-dot.green { background: #27c93f; }
+
+    .code-filename {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-family: 'Space Mono', monospace;
+      margin-left: auto;
+    }
+
+    /* Área de código con resaltado de sintaxis básico */
+    .code-body {
+      padding: 1.5rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.82rem;
+      line-height: 1.8;
+    }
+
+    /* Colores para cada tipo de token de código */
+    .code-keyword  { color: #ff79c6; } /* Palabras clave: function, let, const */
+    .code-string   { color: #f1fa8c; } /* Cadenas de texto: "hola" */
+    .code-function { color: #50fa7b; } /* Nombres de funciones */
+    .code-comment  { color: #6272a4; font-style: italic; } /* Comentarios */
+    .code-number   { color: #bd93f9; } /* Números */
+    .code-tag      { color: #ff79c6; } /* Tags HTML */
+    .code-attr     { color: #50fa7b; } /* Atributos HTML */
+    .code-value    { color: #f1fa8c; } /* Valores de atributos */
+
+    /* Cursor parpadeante al final del código */
+    .code-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1em;
+      background: var(--accent-green);
+      vertical-align: middle;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
+    }
+
+    /* Estadísticas debajo del código */
+    .hero-stats {
+      display: flex;
+      gap: 2rem;
+      margin-top: 2.5rem;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent-green), var(--accent-blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       SECCIONES GENERALES
+       padding: espacio interior arriba/abajo
+       ───────────────────────────────────────────────────────────── */
+    section {
+      padding: 5rem 2rem;
+    }
+
+    /* Contenedor que limita el ancho máximo y centra */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Cabecera de cada sección */
+    .section-header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+
+    /* Etiqueta pequeña sobre el título */
+    .section-tag {
+      display: inline-block;
+      background: rgba(0,255,136,0.08);
+      border: 1px solid rgba(0,255,136,0.15);
+      color: var(--accent-green);
+      padding: 4px 14px;
+      border-radius: 100px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .section-header h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      margin-bottom: 1rem;
+    }
+
+    .section-header p {
+      color: var(--text-muted);
+      font-size: 1rem;
+      max-width: 560px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       TARJETAS DE CURSOS
+       grid: sistema de cuadrícula CSS moderno
+       auto-fill + minmax = columnas responsivas automáticas
+       ───────────────────────────────────────────────────────────── */
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .course-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+    }
+
+    /* Línea de color superior al hacer hover */
+    .course-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--course-color, var(--accent-green));
+      transform: scaleX(0); /* Oculto por defecto */
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .course-card:hover::before {
+      transform: scaleX(1); /* Se expande al hacer hover */
+    }
+
+    .course-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(255,255,255,0.15);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    }
+
+    /* Imagen/banner superior de cada tarjeta */
+    .course-banner {
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Patrón decorativo en el banner */
+    .course-banner::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(255,255,255,0.02) 10px,
+        rgba(255,255,255,0.02) 20px
+      );
+    }
+
+    /* Colores específicos para cada curso */
+    .course-banner.html   { background: linear-gradient(135deg, #e44d26, #f16529); }
+    .course-banner.css    { background: linear-gradient(135deg, #1572b6, #33a9dc); }
+    .course-banner.js     { background: linear-gradient(135deg, #f0db4f, #e6a817); }
+    .course-banner.cpp    { background: linear-gradient(135deg, #00599c, #004482); }
+
+    .course-body {
+      padding: 1.5rem;
+    }
+
+    .course-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .course-level {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 100px;
+    }
+
+    .level-beginner   { background: rgba(0,255,136,0.1); color: var(--accent-green); }
+    .level-inter      { background: rgba(0,180,255,0.1); color: var(--accent-blue); }
+    .level-advanced   { background: rgba(179,71,255,0.1); color: var(--accent-purple); }
+
+    /* Estrellas de valoración */
+    .course-rating {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.85rem;
+      color: #ffd700;
+    }
+
+    .course-body h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .course-body p {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Barra de progreso del curso */
+    .progress-bar {
+      height: 4px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 100px;
+      overflow: hidden;
+      margin-bottom: 0.5rem;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 100px;
+      background: linear-gradient(90deg, var(--accent-green), var(--accent-blue));
+      transition: width 1s ease; /* Animación suave al cargar */
+    }
+
+    .progress-text {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .course-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .course-info {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    /* Botón "Empezar" en cada tarjeta */
+    .btn-course {
+      padding: 8px 18px;
+      background: var(--bg-glass);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-size: 0.85rem;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-course:hover {
+      background: rgba(0,255,136,0.1);
+      border-color: var(--accent-green);
+      color: var(--accent-green);
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       SECCIÓN DE VIDEOS
+       Muestra videos de YouTube embebidos en un grid
+       ───────────────────────────────────────────────────────────── */
+    #videos {
+      background: linear-gradient(180deg,
+        var(--bg-dark) 0%,
+        rgba(0,20,10,0.5) 50%,
+        var(--bg-dark) 100%);
+    }
+
+    .videos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .video-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .video-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+
+    /* Contenedor del iframe con relación de aspecto 16:9 */
+    .video-embed {
+      position: relative;
+      padding-bottom: 56.25%; /* 9/16 * 100% = 56.25% */
+      height: 0;
+      overflow: hidden;
+    }
+
+    /* El iframe se estira para llenar el contenedor */
+    .video-embed iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .video-info {
+      padding: 1.2rem;
+    }
+
+    /* Tag de lenguaje en cada video */
+    .video-tag {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 100px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.6rem;
+    }
+
+    .tag-html   { background: rgba(228,77,38,0.15);  color: #f16529; }
+    .tag-css    { background: rgba(21,114,182,0.15); color: #33a9dc; }
+    .tag-js     { background: rgba(240,219,79,0.15); color: #f0db4f; }
+    .tag-cpp    { background: rgba(0,89,156,0.15);   color: #4d9ce4; }
+
+    .video-info h3 {
+      font-size: 0.95rem;
+      margin-bottom: 0.4rem;
+      line-height: 1.4;
+    }
+
+    .video-info p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       LECCIONES DE CÓDIGO — Explicaciones con ejemplos
+       ───────────────────────────────────────────────────────────── */
+    .lessons-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    /* Botones de pestaña para cambiar de lenguaje */
+    .tab-btn {
+      padding: 10px 22px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Pestaña activa */
+    .tab-btn.active {
+      background: rgba(0,255,136,0.1);
+      border-color: var(--accent-green);
+      color: var(--accent-green);
+    }
+
+    /* Panel de lección (mostrado/oculto por JS) */
+    .lesson-panel {
+      display: none; /* Oculto por defecto */
+    }
+
+    .lesson-panel.active {
+      display: grid; /* Se muestra al activarse */
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .lesson-content h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      color: var(--accent-green);
+    }
+
+    .lesson-content p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+
+    /* Lista de conceptos aprendidos */
+    .lesson-points {
+      list-style: none;
+      margin-top: 1rem;
+    }
+
+    .lesson-points li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 0;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .lesson-points li:last-child { border-bottom: none; }
+
+    .lesson-points li::before {
+      content: '▶';
+      color: var(--accent-green);
+      font-size: 0.65rem;
+      margin-top: 4px;
+      flex-shrink: 0;
+    }
+
+    /* Bloque de código con resaltado de sintaxis */
+    .code-block {
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+
+    .code-block-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 16px;
+      background: #161b22;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.8rem;
+      font-family: 'Space Mono', monospace;
+      color: var(--text-muted);
+    }
+
+    /* Botón para copiar el código */
+    .copy-btn {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      font-family: 'DM Sans', sans-serif;
+      padding: 3px 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .copy-btn:hover {
+      border-color: var(--accent-green);
+      color: var(--accent-green);
+    }
+
+    .code-block pre {
+      padding: 1.5rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.82rem;
+      line-height: 1.8;
+      overflow-x: auto; /* Scroll horizontal si el código es muy largo */
+      color: #abb2bf;
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       EDITOR INTERACTIVO
+       Permite escribir código y ver el resultado en tiempo real
+       ───────────────────────────────────────────────────────────── */
+    .editor-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+
+    .editor-topbar {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 12px 16px;
+      background: #0d1117;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .editor-tabs {
+      display: flex;
+      gap: 4px;
+    }
+
+    .editor-tab {
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-family: 'Space Mono', monospace;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: var(--text-muted);
+      background: none;
+      border: 1px solid transparent;
+    }
+
+    .editor-tab.active {
+      background: rgba(0,255,136,0.1);
+      border-color: rgba(0,255,136,0.3);
+      color: var(--accent-green);
+    }
+
+    /* Botón de ejecutar código */
+    .run-btn {
+      margin-left: auto;
+      padding: 7px 18px;
+      background: linear-gradient(135deg, var(--accent-green), #00cc70);
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .run-btn:hover {
+      box-shadow: var(--glow-green);
+      transform: scale(1.02);
+    }
+
+    /* Layout del editor: código a la izquierda, preview a la derecha */
+    .editor-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 400px;
+    }
+
+    /* Textarea donde se escribe el código */
+    .editor-input {
+      background: #0d1117;
+      border: none;
+      border-right: 1px solid var(--border);
+      color: #abb2bf;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.83rem;
+      padding: 1.5rem;
+      resize: none;         /* No se puede redimensionar */
+      outline: none;        /* Quita el borde de foco */
+      line-height: 1.8;
+      tab-size: 2;          /* Tab de 2 espacios */
+    }
+
+    /* iframe del preview: muestra el resultado del código HTML */
+    .editor-preview {
+      background: #fff;
+      border: none;
+      width: 100%;
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       SECCIÓN DE IMÁGENES (Galería de tecnologías)
+       ───────────────────────────────────────────────────────────── */
+    .tech-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .tech-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .tech-card:hover {
+      transform: scale(1.04);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+
+    /* Imagen que llena el ancho de la tarjeta */
+    .tech-card img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover; /* Recorta para mantener proporción */
+      display: block;
+    }
+
+    .tech-card-info {
+      padding: 0.8rem 1rem;
+    }
+
+    .tech-card-info h4 {
+      font-size: 0.9rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .tech-card-info p {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       SECCIÓN DE COMUNIDAD
+       ───────────────────────────────────────────────────────────── */
+    #comunidad {
+      background:
+        radial-gradient(ellipse at 50% 100%, rgba(0,180,255,0.06) 0%, transparent 70%),
+        var(--bg-dark);
+    }
+
+    .community-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .community-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.8rem;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .community-card:hover {
+      transform: translateY(-4px);
+    }
+
+    /* Icono grande en cada tarjeta de comunidad */
+    .community-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin: 0 auto 1.2rem;
+    }
+
+    .community-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .community-card p {
+      color: var(--text-muted);
+      font-size: 0.87rem;
+      line-height: 1.6;
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       FOOTER
+       ───────────────────────────────────────────────────────────── */
+    footer {
+      background: #070709;
+      border-top: 1px solid var(--border);
+      padding: 3rem 2rem;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+    }
+
+    .footer-brand p {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      line-height: 1.7;
+      margin-top: 1rem;
+      max-width: 280px;
+    }
+
+    .footer-col h4 {
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .footer-col ul {
+      list-style: none;
+    }
+
+    .footer-col ul li {
+      margin-bottom: 0.6rem;
+    }
+
+    .footer-col ul li a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      transition: color 0.2s;
+    }
+
+    .footer-col ul li a:hover {
+      color: var(--accent-green);
+    }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 2rem auto 0;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    /* Iconos de redes sociales */
+    .social-links {
+      display: flex;
+      gap: 12px;
+    }
+
+    .social-link {
+      width: 34px;
+      height: 34px;
+      background: var(--bg-glass);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: all 0.2s ease;
+    }
+
+    .social-link:hover {
+      border-color: var(--accent-green);
+      color: var(--accent-green);
+      transform: translateY(-2px);
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       SCROLL-TO-TOP BUTTON
+       ───────────────────────────────────────────────────────────── */
+    #scroll-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--accent-green), #00cc70);
+      border: none;
+      border-radius: 12px;
+      color: #000;
+      font-size: 1.1rem;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,255,136,0.3);
+      z-index: 50;
+    }
+
+    #scroll-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    #scroll-top:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--glow-green);
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       RESPONSIVE DESIGN — Media Queries
+       @media: aplica estilos solo si se cumplen las condiciones
+       max-width: 768px = pantallas menores a 768px (móviles/tablets)
+       ───────────────────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .hero-content {
+        grid-template-columns: 1fr; /* Una sola columna en móvil */
+      }
+
+      .hero-code {
+        display: none; /* Oculta el código animado en móvil */
+      }
+
+      .lesson-panel.active {
+        grid-template-columns: 1fr;
+      }
+
+      .editor-layout {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
+      }
+
+      .footer-content {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .nav-links { display: none; } /* Menú hamburguesa en móvil */
+
+      .footer-content {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       ANIMACIONES DE ENTRADA (Intersection Observer en JS)
+       ───────────────────────────────────────────────────────────── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Retraso escalonado para cada elemento */
+    .fade-in:nth-child(1) { transition-delay: 0s; }
+    .fade-in:nth-child(2) { transition-delay: 0.1s; }
+    .fade-in:nth-child(3) { transition-delay: 0.2s; }
+    .fade-in:nth-child(4) { transition-delay: 0.3s; }
+  </style>
+</head>
+
+<body>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PANTALLA DE INICIO DE SESIÓN CON GOOGLE
+     Cubre toda la pantalla hasta que el usuario inicia sesión
+     ══════════════════════════════════════════════════════════════ -->
+<div id="login-screen">
+
+  <!-- Partículas animadas en el fondo -->
+  <div class="login-particles" id="particles"></div>
+
+  <!-- Tarjeta del formulario de login -->
+  <div class="login-card">
+
+    <!-- Logo animado -->
+    <div class="login-logo">💻</div>
+
+    <h1>CodeAcademy Pro</h1>
+    <p>La plataforma más completa para aprender a programar desde cero hasta nivel avanzado.</p>
+
+    <!-- ─────────────────────────────────────────────────────────
+         BOTÓN DE GOOGLE SIGN-IN OFICIAL
+         Este div es donde Google inyecta su botón oficial.
+         data-client_id: ID de tu proyecto en Google Cloud Console
+         data-callback: función JS que se llama al iniciar sesión
+         Para activarlo con tu dominio real:
+           1. Ve a console.cloud.google.com
+           2. Crea un proyecto → APIs → OAuth 2.0
+           3. Reemplaza el client_id con el tuyo
+         ───────────────────────────────────────────────────────── -->
+    <div id="g_id_onload"
+         data-client_id="TU_GOOGLE_CLIENT_ID_AQUI.apps.googleusercontent.com"
+         data-callback="onGoogleLogin"
+         data-auto_prompt="false">
+    </div>
+
+    <!-- Botón personalizado que invoca el Sign-In de Google -->
+    <button class="google-btn" onclick="triggerGoogleLogin()">
+      <!-- Logo de Google en SVG inline (no depende de CDN) -->
+      <svg width="22" height="22" viewBox="0 0 48 48">
+        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.36-8.16 2.36-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+        <path fill="none" d="M0 0h48v48H0z"/>
+      </svg>
+      Continuar con Google
+    </button>
+
+    <!-- Divisor visual -->
+    <div class="divider">o</div>
+
+    <!-- Botón alternativo para demo (sin requerir Google real) -->
+    <button class="demo-btn" onclick="loginDemo()">
+      <i class="fas fa-rocket"></i>
+      Entrar como Demo
+    </button>
+
+    <p style="margin-top:1.5rem; font-size:0.78rem; color:var(--text-muted);">
+      Al continuar aceptas los <a href="#" style="color:var(--accent-green)">Términos de Uso</a>
+      y la <a href="#" style="color:var(--accent-green)">Política de Privacidad</a>.
+    </p>
+  </div>
+</div><!-- /login-screen -->
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     HEADER — Barra de navegación superior fija
+     ══════════════════════════════════════════════════════════════ -->
+<header>
+  <nav>
+    <!-- Logo con enlace al inicio -->
+    <a href="#inicio" class="nav-logo">
+      <div class="nav-logo-icon">💻</div>
+      CodeAcademy Pro
+    </a>
+
+    <!-- Links de navegación (anclas a secciones de la página) -->
+    <ul class="nav-links">
+      <li><a href="#cursos">Cursos</a></li>
+      <li><a href="#videos">Videos</a></li>
+      <li><a href="#lecciones">Lecciones</a></li>
+      <li><a href="#editor">Editor</a></li>
+      <li><a href="#comunidad">Comunidad</a></li>
+    </ul>
+
+    <!-- Información del usuario (se muestra tras el login) -->
+    <div id="user-info">
+      <img id="user-avatar" src="" alt="Avatar" />
+      <span id="user-name">Usuario</span>
+    </div>
+  </nav>
+</header>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SECCIÓN HERO — Pantalla principal de bienvenida
+     id="inicio" = ancla para el link del logo
+     ══════════════════════════════════════════════════════════════ -->
+<section class="hero" id="inicio">
+  <div class="hero-bg"></div>   <!-- Gradiente de fondo -->
+  <div class="hero-grid"></div> <!-- Cuadrícula decorativa -->
+
+  <div class="hero-content">
+    <!-- Texto de la izquierda -->
+    <div class="hero-text">
+      <div class="hero-badge">
+        <i class="fas fa-star"></i>
+        Plataforma #1 en Español
+      </div>
+
+      <h1>
+        Aprende a<br>
+        <span>Programar</span><br>
+        desde Cero
+      </h1>
+
+      <p>
+        Domina HTML, CSS, JavaScript y C++ con lecciones interactivas,
+        videos tutoriales, proyectos reales y una comunidad de más de
+        50,000 estudiantes activos.
+      </p>
+
+      <div class="hero-buttons">
+        <a href="#cursos" class="btn-primary">
+          <i class="fas fa-play"></i>
+          Comenzar Gratis
+        </a>
+        <a href="#videos" class="btn-secondary">
+          <i class="fas fa-film"></i>
+          Ver Videos
+        </a>
+      </div>
+
+      <!-- Estadísticas numéricas -->
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-number">50K+</div>
+          <div class="stat-label">Estudiantes</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">120+</div>
+          <div class="stat-label">Lecciones</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">4</div>
+          <div class="stat-label">Lenguajes</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel de código animado (derecha) -->
+    <div class="hero-code">
+      <!-- Barra tipo editor con los 3 puntos de colores -->
+      <div class="code-header">
+        <div class="code-dot red"></div>
+        <div class="code-dot yellow"></div>
+        <div class="code-dot green"></div>
+        <span class="code-filename">mi-primer-programa.js</span>
+      </div>
+
+      <!-- Código con resaltado manual de sintaxis vía spans -->
+      <div class="code-body">
+        <div>
+          <span class="code-comment">// 🚀 Mi primer programa en JavaScript</span>
+        </div>
+        <div>
+          <span class="code-keyword">function</span>
+          <span class="code-function"> saludar</span>(nombre) {
+        </div>
+        <div>&nbsp;&nbsp;<span class="code-keyword">const</span> mensaje =
+          <span class="code-string"> `¡Hola, ${nombre}!`</span>;</div>
+        <div>&nbsp;&nbsp;<span class="code-function">console</span>.log(mensaje);</div>
+        <div>&nbsp;&nbsp;<span class="code-keyword">return</span> mensaje;</div>
+        <div>}</div>
+        <div>&nbsp;</div>
+        <div>
+          <span class="code-comment">// Llamar la función</span>
+        </div>
+        <div>
+          <span class="code-function">saludar</span>(
+          <span class="code-string">"Programador"</span>);
+        </div>
+        <div>&nbsp;</div>
+        <div>
+          <span class="code-comment">// Output: ¡Hola, Programador!</span>
+          <span class="code-cursor"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SECCIÓN DE CURSOS — 4 lenguajes principales
+     ══════════════════════════════════════════════════════════════ -->
+<section id="cursos">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-tag">Contenido</span>
+      <h2>Nuestros Cursos</h2>
+      <p>Aprende los lenguajes más demandados con un plan de estudios estructurado de principiante a avanzado.</p>
+    </div>
+
+    <div class="courses-grid">
+
+      <!-- ── TARJETA: HTML ── -->
+      <div class="course-card fade-in" style="--course-color: #f16529">
+        <!-- Banner con emoji del lenguaje -->
+        <div class="course-banner html">🌐</div>
+
+        <div class="course-body">
+          <div class="course-meta">
+            <span class="course-level level-beginner">Principiante</span>
+            <div class="course-rating">
+              <i class="fas fa-star"></i> 4.9
+            </div>
+          </div>
+          <h3>HTML — Estructura Web</h3>
+          <p>
+            Aprende los fundamentos de HTML5: etiquetas semánticas, formularios,
+            tablas, multimedia y la estructura base de cualquier página web.
+          </p>
+          <!-- Barra de progreso (0% para nuevos) -->
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 0%"></div>
+          </div>
+          <div class="progress-text">
+            <span>Tu progreso</span>
+            <span>0 / 24 lecciones</span>
+          </div>
+        </div>
+
+        <div class="course-footer">
+          <div class="course-info">
+            <i class="fas fa-clock"></i> 8 horas
+          </div>
+          <button class="btn-course" onclick="alert('¡Iniciando curso de HTML!')">
+            Empezar →
+          </button>
+        </div>
+      </div>
+
+      <!-- ── TARJETA: CSS ── -->
+      <div class="course-card fade-in" style="--course-color: #33a9dc">
+        <div class="course-banner css">🎨</div>
+
+        <div class="course-body">
+          <div class="course-meta">
+            <span class="course-level level-beginner">Principiante</span>
+            <div class="course-rating">
+              <i class="fas fa-star"></i> 4.8
+            </div>
+          </div>
+          <h3>CSS — Diseño y Estilos</h3>
+          <p>
+            Domina CSS3 moderno: Flexbox, Grid, animaciones, variables,
+            responsive design y cómo crear interfaces visualmente atractivas.
+          </p>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 0%"></div>
+          </div>
+          <div class="progress-text">
+            <span>Tu progreso</span>
+            <span>0 / 28 lecciones</span>
+          </div>
+        </div>
+
+        <div class="course-footer">
+          <div class="course-info">
+            <i class="fas fa-clock"></i> 10 horas
+          </div>
+          <button class="btn-course" onclick="alert('¡Iniciando curso de CSS!')">
+            Empezar →
+          </button>
+        </div>
+      </div>
+
+      <!-- ── TARJETA: JAVASCRIPT ── -->
+      <div class="course-card fade-in" style="--course-color: #f0db4f">
+        <div class="course-banner js">⚡</div>
+
+        <div class="course-body">
+          <div class="course-meta">
+            <span class="course-level level-inter">Intermedio</span>
+            <div class="course-rating">
+              <i class="fas fa-star"></i> 4.9
+            </div>
+          </div>
+          <h3>JavaScript — Programación Web</h3>
+          <p>
+            Variables, funciones, arrays, objetos, DOM, eventos, fetch API,
+            Promises, async/await y los conceptos modernos de ES6+.
+          </p>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 0%"></div>
+          </div>
+          <div class="progress-text">
+            <span>Tu progreso</span>
+            <span>0 / 36 lecciones</span>
+          </div>
+        </div>
+
+        <div class="course-footer">
+          <div class="course-info">
+            <i class="fas fa-clock"></i> 18 horas
+          </div>
+          <button class="btn-course" onclick="alert('¡Iniciando curso de JavaScript!')">
+            Empezar →
+          </button>
+        </div>
+      </div>
+
+      <!-- ── TARJETA: C++ ── -->
+      <div class="course-card fade-in" style="--course-color: #4d9ce4">
+        <div class="course-banner cpp">⚙️</div>
+
+        <div class="course-body">
+          <div class="course-meta">
+            <span class="course-level level-advanced">Avanzado</span>
+            <div class="course-rating">
+              <i class="fas fa-star"></i> 4.7
+            </div>
+          </div>
+          <h3>C++ — Programación de Sistemas</h3>
+          <p>
+            Fundamentos de C++: tipos de datos, punteros, memoria dinámica,
+            POO (clases, herencia), STL y programación orientada a rendimiento.
+          </p>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 0%"></div>
+          </div>
+          <div class="progress-text">
+            <span>Tu progreso</span>
+            <span>0 / 32 lecciones</span>
+          </div>
+        </div>
+
+        <div class="course-footer">
+          <div class="course-info">
+            <i class="fas fa-clock"></i> 20 horas
+          </div>
+          <button class="btn-course" onclick="alert('¡Iniciando curso de C++!')">
+            Empezar →
+          </button>
+        </div>
+      </div>
+
+    </div><!-- /courses-grid -->
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SECCIÓN DE VIDEOS — Tutoriales de YouTube embebidos
+     Los videos de YouTube se insertan con <iframe> usando
+     la URL embed: https://www.youtube.com/embed/VIDEO_ID
+     ══════════════════════════════════════════════════════════════ -->
+<section id="videos">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-tag">Tutoriales</span>
+      <h2>Videos de Aprendizaje</h2>
+      <p>Tutoriales en video de alta calidad para reforzar cada concepto de forma visual y práctica.</p>
+    </div>
+
+    <div class="videos-grid">
+
+      <!-- ── VIDEO: HTML para principiantes ── -->
+      <div class="video-card fade-in">
+        <!-- 
+          iframe = elemento para insertar contenido externo
+          src = URL del video de YouTube en modo embed
+          allow = permisos del iframe (autoplay, clipboard, etc.)
+          allowfullscreen = permite pantalla completa
+        -->
+        <div class="video-embed">
+          <iframe
+            src="https://www.youtube.com/embed/kUMe1FH4CHE"
+            title="HTML para principiantes"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        </div>
+        <div class="video-info">
+          <span class="video-tag tag-html">HTML</span>
+          <h3>HTML desde Cero — Curso Completo</h3>
+          <p>Aprende toda la estructura HTML5 desde cero con ejemplos prácticos en este tutorial completo.</p>
+        </div>
+      </div>
+
+      <!-- ── VIDEO: CSS Flexbox ── -->
+      <div class="video-card fade-in">
+        <div class="video-embed">
+          <iframe
+            src="https://www.youtube.com/embed/3YW65K6LcIA"
+            title="CSS Flexbox Tutorial"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        </div>
+        <div class="video-info">
+          <span class="video-tag tag-css">CSS</span>
+          <h3>CSS Flexbox — Tutorial Completo</h3>
+          <p>Domina Flexbox con ejercicios paso a paso para crear layouts modernos y responsivos.</p>
+        </div>
+      </div>
+
+      <!-- ── VIDEO: JavaScript Moderno ── -->
+      <div class="video-card fade-in">
+        <div class="video-embed">
+          <iframe
+            src="https://www.youtube.com/embed/W6NZfCO5SIk"
+            title="JavaScript para principiantes"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        </div>
+        <div class="video-info">
+          <span class="video-tag tag-js">JavaScript</span>
+          <h3>JavaScript para Principiantes</h3>
+          <p>Fundamentos de JavaScript: variables, funciones, objetos, arrays y manipulación del DOM.</p>
+        </div>
+      </div>
+
+      <!-- ── VIDEO: C++ Básico ── -->
+      <div class="video-card fade-in">
+        <div class="video-embed">
+          <iframe
+            src="https://www.youtube.com/embed/ZzaPdXTrSb8"
+            title="C++ para principiantes"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        </div>
+        <div class="video-info">
+          <span class="video-tag tag-cpp">C++</span>
+          <h3>C++ para Principiantes</h3>
+          <p>Introducción a C++: sintaxis básica, variables, funciones, bucles y programación orientada a objetos.</p>
+        </div>
+      </div>
+
+      <!-- ── VIDEO: CSS Grid ── -->
+      <div class="video-card fade-in">
+        <div class="video-embed">
+          <iframe
+            src="https://www.youtube.com/embed/EiNiSFIPIQE"
+            title="CSS Grid Tutorial"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        </div>
+        <div class="video-info">
+          <span class="video-tag tag-css">CSS</span>
+          <h3>CSS Grid — Layout Moderno</h3>
+          <p>Aprende a crear layouts complejos y responsivos con CSS Grid de manera sencilla.</p>
+        </div>
+      </div>
+
+      <!-- ── VIDEO: JavaScript ES6 ── -->
+      <div class="video-card fade-in">
+        <div class="video-embed">
+          <iframe
+            src="https://www.youtube.com/embed/NCwa_xi0Uuc"
+            title="JavaScript ES6+"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        </div>
+        <div class="video-info">
+          <span class="video-tag tag-js">JavaScript</span>
+          <h3>JavaScript ES6+ — Características Modernas</h3>
+          <p>Arrow functions, destructuring, spread operator, async/await y todo lo nuevo de JavaScript moderno.</p>
+        </div>
+      </div>
+
+    </div><!-- /videos-grid -->
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SECCIÓN DE LECCIONES — Referencia rápida con código
+     ══════════════════════════════════════════════════════════════ -->
+<section id="lecciones">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-tag">Referencia</span>
+      <h2>Lecciones de Código</h2>
+      <p>Ejemplos prácticos con explicaciones detalladas para cada lenguaje.</p>
+    </div>
+
+    <!-- Pestañas para seleccionar el lenguaje -->
+    <div class="lessons-tabs">
+      <button class="tab-btn active" onclick="showLesson('html', this)">🌐 HTML</button>
+      <button class="tab-btn" onclick="showLesson('css', this)">🎨 CSS</button>
+      <button class="tab-btn" onclick="showLesson('js', this)">⚡ JavaScript</button>
+      <button class="tab-btn" onclick="showLesson('cpp', this)">⚙️ C++</button>
+    </div>
+
+    <!-- ── PANEL: HTML ── -->
+    <div id="lesson-html" class="lesson-panel active">
+      <div class="lesson-content">
+        <h3>HTML — HyperText Markup Language</h3>
+        <p>
+          HTML es el lenguaje de marcado que define la <strong>estructura y contenido</strong>
+          de una página web. No es un lenguaje de programación; es un lenguaje descriptivo
+          que usa <em>etiquetas</em> para indicar qué tipo de contenido hay en cada sección.
+        </p>
+        <p>
+          Todo documento HTML tiene una estructura base con <code>&lt;!DOCTYPE html&gt;</code>,
+          <code>&lt;html&gt;</code>, <code>&lt;head&gt;</code> y <code>&lt;body&gt;</code>.
+          Lo que va en el <code>body</code> es lo que el usuario ve en el navegador.
+        </p>
+        <ul class="lesson-points">
+          <li>Las etiquetas HTML se escriben entre corchetes angulares: <code>&lt;p&gt;</code></li>
+          <li>La mayoría tienen apertura y cierre: <code>&lt;div&gt;</code>...<code>&lt;/div&gt;</code></li>
+          <li>Los atributos añaden información extra: <code>href="url"</code>, <code>src="imagen.jpg"</code></li>
+          <li>HTML5 introdujo etiquetas semánticas: <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;footer&gt;</code></li>
+          <li>Los formularios (<code>&lt;form&gt;</code>) permiten recibir datos del usuario</li>
+        </ul>
+      </div>
+
+      <!-- Bloque de código HTML con resaltado -->
+      <div class="code-block">
+        <div class="code-block-header">
+          <span>index.html</span>
+          <button class="copy-btn" onclick="copyCode('code-html')">
+            <i class="fas fa-copy"></i> Copiar
+          </button>
+        </div>
+        <pre id="code-html"><span class="code-comment">&lt;!-- Estructura base de un documento HTML --&gt;</span>
+<span class="code-tag">&lt;!DOCTYPE</span> <span class="code-attr">html</span><span class="code-tag">&gt;</span>
+<span class="code-tag">&lt;html</span> <span class="code-attr">lang</span>=<span class="code-value">"es"</span><span class="code-tag">&gt;</span>
+<span class="code-tag">&lt;head&gt;</span>
+  <span class="code-tag">&lt;meta</span> <span class="code-attr">charset</span>=<span class="code-value">"UTF-8"</span><span class="code-tag">&gt;</span>
+  <span class="code-tag">&lt;title&gt;</span>Mi Página Web<span class="code-tag">&lt;/title&gt;</span>
+<span class="code-tag">&lt;/head&gt;</span>
+
+<span class="code-tag">&lt;body&gt;</span>
+
+  <span class="code-comment">&lt;!-- Encabezados del h1 (mayor) al h6 (menor) --&gt;</span>
+  <span class="code-tag">&lt;h1&gt;</span>Título Principal<span class="code-tag">&lt;/h1&gt;</span>
+  <span class="code-tag">&lt;h2&gt;</span>Subtítulo<span class="code-tag">&lt;/h2&gt;</span>
+
+  <span class="code-comment">&lt;!-- Párrafo de texto --&gt;</span>
+  <span class="code-tag">&lt;p&gt;</span>Esto es un párrafo de texto.<span class="code-tag">&lt;/p&gt;</span>
+
+  <span class="code-comment">&lt;!-- Enlace (hipervínculo) --&gt;</span>
+  <span class="code-tag">&lt;a</span> <span class="code-attr">href</span>=<span class="code-value">"https://google.com"</span><span class="code-tag">&gt;</span>Ir a Google<span class="code-tag">&lt;/a&gt;</span>
+
+  <span class="code-comment">&lt;!-- Imagen --&gt;</span>
+  <span class="code-tag">&lt;img</span> <span class="code-attr">src</span>=<span class="code-value">"foto.jpg"</span> <span class="code-attr">alt</span>=<span class="code-value">"Descripción"</span><span class="code-tag">&gt;</span>
+
+  <span class="code-comment">&lt;!-- Lista no ordenada --&gt;</span>
+  <span class="code-tag">&lt;ul&gt;</span>
+    <span class="code-tag">&lt;li&gt;</span>Elemento 1<span class="code-tag">&lt;/li&gt;</span>
+    <span class="code-tag">&lt;li&gt;</span>Elemento 2<span class="code-tag">&lt;/li&gt;</span>
+  <span class="code-tag">&lt;/ul&gt;</span>
+
+<span class="code-tag">&lt;/body&gt;</span>
+<span class="code-tag">&lt;/html&gt;</span></pre>
+      </div>
+    </div>
+
+    <!-- ── PANEL: CSS ── -->
+    <div id="lesson-css" class="lesson-panel">
+      <div class="lesson-content">
+        <h3>CSS — Cascading Style Sheets</h3>
+        <p>
+          CSS controla cómo se <strong>ve</strong> el HTML: colores, fuentes, tamaños, espaciados,
+          posicionamiento y animaciones. La "cascada" significa que los estilos más específicos
+          sobrescriben a los más generales.
+        </p>
+        <p>
+          CSS puede aplicarse de 3 formas: inline (<code>style=""</code>), interno
+          (<code>&lt;style&gt;</code>) o externo (archivo <code>.css</code>). El externo es
+          la mejor práctica en proyectos reales.
+        </p>
+        <ul class="lesson-points">
+          <li><strong>Selector</strong>: elige qué elemento(s) estilar (<code>p</code>, <code>.clase</code>, <code>#id</code>)</li>
+          <li><strong>Propiedad</strong>: qué aspecto cambiar (<code>color</code>, <code>font-size</code>, <code>margin</code>)</li>
+          <li><strong>Valor</strong>: el nuevo valor de la propiedad (<code>red</code>, <code>16px</code>, <code>auto</code>)</li>
+          <li><strong>Flexbox</strong>: sistema para alinear elementos en una dirección</li>
+          <li><strong>Grid</strong>: sistema para crear layouts bidimensionales (filas y columnas)</li>
+        </ul>
+      </div>
+
+      <div class="code-block">
+        <div class="code-block-header">
+          <span>styles.css</span>
+          <button class="copy-btn" onclick="copyCode('code-css')">
+            <i class="fas fa-copy"></i> Copiar
+          </button>
+        </div>
+        <pre id="code-css"><span class="code-comment">/* Variables CSS (Custom Properties) */</span>
+<span class="code-tag">:root</span> {
+  <span class="code-attr">--color-primario</span>: <span class="code-value">#00ff88</span>;
+  <span class="code-attr">--fuente-base</span>:  <span class="code-value">'Arial', sans-serif</span>;
+}
+
+<span class="code-comment">/* Selector de etiqueta — aplica a todos los &lt;body&gt; */</span>
+<span class="code-tag">body</span> {
+  <span class="code-attr">font-family</span>: <span class="code-value">var(--fuente-base)</span>;
+  <span class="code-attr">background</span>: <span class="code-value">#0a0a0f</span>;
+  <span class="code-attr">color</span>:       <span class="code-value">#f0f0f5</span>;
+  <span class="code-attr">margin</span>:      <span class="code-value">0</span>;
+}
+
+<span class="code-comment">/* Selector de clase — el punto "." indica clase */</span>
+<span class="code-tag">.tarjeta</span> {
+  <span class="code-attr">background</span>:    <span class="code-value">#111118</span>;
+  <span class="code-attr">border-radius</span>: <span class="code-value">16px</span>;   <span class="code-comment">/* Esquinas redondeadas */</span>
+  <span class="code-attr">padding</span>:       <span class="code-value">1.5rem</span>; <span class="code-comment">/* Espacio interior */</span>
+  <span class="code-attr">margin</span>:        <span class="code-value">1rem 0</span>; <span class="code-comment">/* Espacio exterior */</span>
+}
+
+<span class="code-comment">/* Flexbox — alinea hijos en fila */</span>
+<span class="code-tag">.contenedor</span> {
+  <span class="code-attr">display</span>:         <span class="code-value">flex</span>;
+  <span class="code-attr">align-items</span>:    <span class="code-value">center</span>;     <span class="code-comment">/* Centrado vertical */</span>
+  <span class="code-attr">justify-content</span>: <span class="code-value">space-between</span>; <span class="code-comment">/* Espacio entre */</span>
+  <span class="code-attr">gap</span>:             <span class="code-value">1rem</span>;
+}
+
+<span class="code-comment">/* Animación CSS */</span>
+<span class="code-tag">@keyframes</span> aparecer {
+  <span class="code-attr">from</span> { <span class="code-keyword">opacity</span>: 0; <span class="code-keyword">transform</span>: translateY(20px); }
+  <span class="code-attr">to</span>   { <span class="code-keyword">opacity</span>: 1; <span class="code-keyword">transform</span>: translateY(0); }
+}
+
+<span class="code-tag">.animado</span> {
+  <span class="code-attr">animation</span>: <span class="code-value">aparecer 0.6s ease</span>;
+}</pre>
+      </div>
+    </div>
+
+    <!-- ── PANEL: JAVASCRIPT ── -->
+    <div id="lesson-js" class="lesson-panel">
+      <div class="lesson-content">
+        <h3>JavaScript — El Lenguaje de la Web</h3>
+        <p>
+          JavaScript (JS) da <strong>comportamiento e interactividad</strong> a las páginas web.
+          Es el único lenguaje que los navegadores entienden de forma nativa para la parte
+          del cliente (frontend).
+        </p>
+        <p>
+          Con JavaScript puedes responder a clics del usuario, modificar el HTML en tiempo real
+          (DOM manipulation), hacer peticiones a servidores (fetch/AJAX) y crear aplicaciones
+          web completas.
+        </p>
+        <ul class="lesson-points">
+          <li><code>let</code> / <code>const</code> declaran variables (<code>var</code> es antigua)</li>
+          <li>Las <strong>funciones</strong> son bloques de código reutilizables</li>
+          <li>Los <strong>arrays</strong> (<code>[]</code>) guardan listas de elementos</li>
+          <li>Los <strong>objetos</strong> (<code>{}</code>) guardan pares clave-valor</li>
+          <li>El <strong>DOM</strong> permite modificar el HTML desde JavaScript</li>
+        </ul>
+      </div>
+
+      <div class="code-block">
+        <div class="code-block-header">
+          <span>script.js</span>
+          <button class="copy-btn" onclick="copyCode('code-js')">
+            <i class="fas fa-copy"></i> Copiar
+          </button>
+        </div>
+        <pre id="code-js"><span class="code-comment">// ── VARIABLES ──────────────────────────────</span>
+<span class="code-keyword">const</span> nombre = <span class="code-string">"Ana"</span>;     <span class="code-comment">// no se puede reasignar</span>
+<span class="code-keyword">let</span>   edad   = <span class="code-number">25</span>;       <span class="code-comment">// sí se puede reasignar</span>
+
+<span class="code-comment">// ── FUNCIONES ───────────────────────────────</span>
+<span class="code-keyword">function</span> <span class="code-function">sumar</span>(a, b) {
+  <span class="code-keyword">return</span> a + b;
+}
+
+<span class="code-comment">// Arrow function (ES6) — más corta</span>
+<span class="code-keyword">const</span> <span class="code-function">multiplicar</span> = (a, b) => a * b;
+
+<span class="code-comment">// ── ARRAYS ──────────────────────────────────</span>
+<span class="code-keyword">const</span> lenguajes = [<span class="code-string">"HTML"</span>, <span class="code-string">"CSS"</span>, <span class="code-string">"JS"</span>, <span class="code-string">"C++"</span>];
+lenguajes.<span class="code-function">forEach</span>(lang => {
+  console.<span class="code-function">log</span>(<span class="code-string">`Aprendiendo: </span>${lang}<span class="code-string">`</span>);
+});
+
+<span class="code-comment">// ── OBJETOS ─────────────────────────────────</span>
+<span class="code-keyword">const</span> estudiante = {
+  nombre: <span class="code-string">"Ana"</span>,
+  edad:   <span class="code-number">25</span>,
+  <span class="code-function">saludar</span>() {
+    <span class="code-keyword">return</span> <span class="code-string">`Hola, soy </span>${<span class="code-keyword">this</span>.nombre}<span class="code-string">`</span>;
+  }
+};
+
+<span class="code-comment">// ── MANIPULACIÓN DEL DOM ────────────────────</span>
+<span class="code-comment">// Seleccionar elemento por ID</span>
+<span class="code-keyword">const</span> btn = document.<span class="code-function">getElementById</span>(<span class="code-string">"miBoton"</span>);
+
+<span class="code-comment">// Añadir evento al botón</span>
+btn.<span class="code-function">addEventListener</span>(<span class="code-string">"click"</span>, () => {
+  document.<span class="code-function">getElementById</span>(<span class="code-string">"resultado"</span>).textContent
+    = <span class="code-string">"¡Botón clickeado!"</span>;
+});
+
+<span class="code-comment">// ── FETCH API (peticiones HTTP) ─────────────</span>
+<span class="code-keyword">async function</span> <span class="code-function">obtenerDatos</span>() {
+  <span class="code-keyword">const</span> respuesta = <span class="code-keyword">await</span> <span class="code-function">fetch</span>(<span class="code-string">"https://api.ejemplo.com"</span>);
+  <span class="code-keyword">const</span> datos     = <span class="code-keyword">await</span> respuesta.<span class="code-function">json</span>();
+  console.<span class="code-function">log</span>(datos);
+}</pre>
+      </div>
+    </div>
+
+    <!-- ── PANEL: C++ ── -->
+    <div id="lesson-cpp" class="lesson-panel">
+      <div class="lesson-content">
+        <h3>C++ — Programación de Alto Rendimiento</h3>
+        <p>
+          C++ es un lenguaje compilado de propósito general que combina programación
+          <strong>orientada a objetos</strong> con control de bajo nivel del hardware.
+          Se usa en videojuegos, sistemas operativos, motores gráficos y aplicaciones críticas.
+        </p>
+        <p>
+          A diferencia de JavaScript, C++ requiere ser <em>compilado</em> antes de ejecutarse.
+          El programador gestiona la memoria manualmente con punteros, lo que da
+          más control pero también más responsabilidad.
+        </p>
+        <ul class="lesson-points">
+          <li><code>#include</code> importa librerías (similar a <code>import</code> en JS)</li>
+          <li>Las variables tienen <strong>tipos estrictos</strong>: <code>int</code>, <code>float</code>, <code>string</code></li>
+          <li>Los <strong>punteros</strong> guardan direcciones de memoria (<code>int* ptr</code>)</li>
+          <li>Las <strong>clases</strong> son plantillas de objetos (OOP)</li>
+          <li><code>cout</code> imprime en consola; <code>cin</code> lee entrada del usuario</li>
+        </ul>
+      </div>
+
+      <div class="code-block">
+        <div class="code-block-header">
+          <span>main.cpp</span>
+          <button class="copy-btn" onclick="copyCode('code-cpp')">
+            <i class="fas fa-copy"></i> Copiar
+          </button>
+        </div>
+        <pre id="code-cpp"><span class="code-comment">// Incluir librerías estándar</span>
+<span class="code-keyword">#include</span> <span class="code-string">&lt;iostream&gt;</span>  <span class="code-comment">// Para cout y cin</span>
+<span class="code-keyword">#include</span> <span class="code-string">&lt;string&gt;</span>    <span class="code-comment">// Para usar string</span>
+<span class="code-keyword">#include</span> <span class="code-string">&lt;vector&gt;</span>    <span class="code-comment">// Para usar vector (array dinámico)</span>
+
+<span class="code-keyword">using namespace</span> std;  <span class="code-comment">// Evita escribir "std::" cada vez</span>
+
+<span class="code-comment">// ── CLASE (Programación Orientada a Objetos) ─</span>
+<span class="code-keyword">class</span> <span class="code-function">Estudiante</span> {
+<span class="code-keyword">private</span>:            <span class="code-comment">// Solo accesible dentro de la clase</span>
+  string nombre;
+  <span class="code-keyword">int</span> edad;
+
+<span class="code-keyword">public</span>:             <span class="code-comment">// Accesible desde fuera</span>
+  <span class="code-comment">// Constructor — se llama al crear el objeto</span>
+  <span class="code-function">Estudiante</span>(string n, <span class="code-keyword">int</span> e) : nombre(n), edad(e) {}
+
+  <span class="code-comment">// Método — función dentro de la clase</span>
+  <span class="code-keyword">void</span> <span class="code-function">saludar</span>() {
+    cout << <span class="code-string">"Hola, soy "</span> << nombre
+         << <span class="code-string">" y tengo "</span> << edad
+         << <span class="code-string">" años."</span> << endl;
+  }
+};
+
+<span class="code-comment">// ── FUNCIÓN PRINCIPAL ──────────────────────</span>
+<span class="code-keyword">int</span> <span class="code-function">main</span>() {
+  <span class="code-comment">// Crear objeto de la clase Estudiante</span>
+  <span class="code-function">Estudiante</span> e1(<span class="code-string">"Ana"</span>, <span class="code-number">25</span>);
+  e1.<span class="code-function">saludar</span>();
+
+  <span class="code-comment">// Vector (array dinámico)</span>
+  vector&lt;string&gt; lenguajes = {<span class="code-string">"HTML"</span>, <span class="code-string">"CSS"</span>, <span class="code-string">"C++"</span>};
+
+  <span class="code-comment">// Bucle for moderno (range-based)</span>
+  <span class="code-keyword">for</span> (<span class="code-keyword">const</span> string& lang : lenguajes) {
+    cout << lang << endl;
+  }
+
+  <span class="code-keyword">return</span> <span class="code-number">0</span>; <span class="code-comment">// Indica que el programa terminó bien</span>
+}</pre>
+      </div>
+    </div>
+
+  </div><!-- /container -->
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     EDITOR INTERACTIVO DE CÓDIGO
+     Permite escribir HTML y ver el resultado en tiempo real
+     usando un <iframe> como "sandbox" (entorno aislado)
+     ══════════════════════════════════════════════════════════════ -->
+<section id="editor">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-tag">Práctica</span>
+      <h2>Editor Interactivo</h2>
+      <p>Escribe código HTML y observa el resultado en tiempo real. El mejor aprendizaje es haciendo.</p>
+    </div>
+
+    <div class="editor-container fade-in">
+
+      <!-- Barra superior del editor con pestañas y botón de ejecutar -->
+      <div class="editor-topbar">
+        <div class="editor-tabs">
+          <button class="editor-tab active" id="tab-html" onclick="switchEditorTab('html')">index.html</button>
+          <button class="editor-tab" id="tab-css" onclick="switchEditorTab('css')">style.css</button>
+        </div>
+
+        <!-- Botón que ejecuta el código y actualiza el preview -->
+        <button class="run-btn" onclick="runCode()">
+          <i class="fas fa-play"></i> Ejecutar
+        </button>
+      </div>
+
+      <!-- Layout de dos columnas: editor + preview -->
+      <div class="editor-layout">
+        <!-- Área de texto donde se escribe el código -->
+        <textarea
+          id="editor-area"
+          class="editor-input"
+          spellcheck="false"
+          placeholder="Escribe tu código HTML aquí..."
+        ><!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    /* === Estilos de la página de práctica === */
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+    }
+    .card {
+      background: white;
+      padding: 2rem;
+      border-radius: 16px;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      max-width: 400px;
+    }
+    h1 { color: #333; margin-bottom: 0.5rem; }
+    p  { color: #666; }
+    button {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-top: 1rem;
+      transition: transform 0.2s;
+    }
+    button:hover { transform: scale(1.05); }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>¡Hola, Mundo!</h1>
+    <p>Edita este código y presiona <strong>Ejecutar</strong></p>
+    <button onclick="this.textContent = '¡Funcionó!'">
+      Haz clic aquí
+    </button>
+  </div>
+</body>
+</html></textarea>
+
+        <!-- iframe que muestra el resultado del código HTML -->
+        <iframe
+          id="preview-frame"
+          class="editor-preview"
+          title="Vista previa del código"
+          sandbox="allow-scripts">
+          <!-- sandbox limita lo que puede hacer el iframe por seguridad -->
+        </iframe>
+      </div>
+
+    </div><!-- /editor-container -->
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SECCIÓN DE GALERÍA DE TECNOLOGÍAS
+     Imágenes reales de Unsplash via URL directa
+     ══════════════════════════════════════════════════════════════ -->
+<section id="galeria">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-tag">Tecnologías</span>
+      <h2>El Ecosistema de la Web</h2>
+      <p>Herramientas y tecnologías que aprenderás y utilizarás en proyectos reales.</p>
+    </div>
+
+    <div class="tech-gallery">
+      <!-- 
+        Las imágenes provienen de Unsplash (banco de fotos gratuitas)
+        El parámetro ?w=400 limita el ancho para cargar más rápido
+      -->
+      <div class="tech-card fade-in">
+        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&q=80" alt="Código en pantalla" loading="lazy" />
+        <div class="tech-card-info">
+          <h4>Desarrollo Web</h4>
+          <p>Front-end y Back-end</p>
+        </div>
+      </div>
+
+      <div class="tech-card fade-in">
+        <img src="https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=400&q=80" alt="MacBook con código" loading="lazy" />
+        <div class="tech-card-info">
+          <h4>Entorno de Desarrollo</h4>
+          <p>VS Code y terminales</p>
+        </div>
+      </div>
+
+      <div class="tech-card fade-in">
+        <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=400&q=80" alt="JavaScript code" loading="lazy" />
+        <div class="tech-card-info">
+          <h4>JavaScript Moderno</h4>
+          <p>ES6+ y frameworks</p>
+        </div>
+      </div>
+
+      <div class="tech-card fade-in">
+        <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&q=80" alt="Pantalla de programación" loading="lazy" />
+        <div class="tech-card-info">
+          <h4>Algoritmos y Lógica</h4>
+          <p>C++ y estructuras de datos</p>
+        </div>
+      </div>
+
+      <div class="tech-card fade-in">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" alt="Persona programando" loading="lazy" />
+        <div class="tech-card-info">
+          <h4>Comunidad</h4>
+          <p>Aprende con otros</p>
+        </div>
+      </div>
+
+      <div class="tech-card fade-in">
+        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&q=80" alt="Laptop con código web" loading="lazy" />
+        <div class="tech-card-info">
+          <h4>Proyectos Reales</h4>
+          <p>Portfolio profesional</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SECCIÓN DE COMUNIDAD
+     ══════════════════════════════════════════════════════════════ -->
+<section id="comunidad">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-tag">Comunidad</span>
+      <h2>Aprende Acompañado</h2>
+      <p>Una comunidad vibrante de estudiantes y mentores listos para ayudarte en tu camino.</p>
+    </div>
+
+    <div class="community-grid">
+      <div class="community-card fade-in">
+        <div class="community-icon" style="background:rgba(0,255,136,0.1)">💬</div>
+        <h3>Foro de Preguntas</h3>
+        <p>¿Tienes una duda? Publícala en el foro y recibe respuesta de la comunidad en minutos.</p>
+      </div>
+
+      <div class="community-card fade-in">
+        <div class="community-icon" style="background:rgba(0,180,255,0.1)">🏆</div>
+        <h3>Retos Semanales</h3>
+        <p>Participa en retos de programación cada semana y compara tu solución con otros.</p>
+      </div>
+
+      <div class="community-card fade-in">
+        <div class="community-icon" style="background:rgba(179,71,255,0.1)">👨‍🏫</div>
+        <h3>Mentoría en Vivo</h3>
+        <p>Sesiones de Q&A en vivo con instructores expertos cada martes y jueves.</p>
+      </div>
+
+      <div class="community-card fade-in">
+        <div class="community-icon" style="background:rgba(255,107,53,0.1)">📁</div>
+        <h3>Proyectos Grupales</h3>
+        <p>Colabora con otros estudiantes en proyectos reales para enriquecer tu portfolio.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     FOOTER — Pie de página con links y créditos
+     ══════════════════════════════════════════════════════════════ -->
+<footer>
+  <div class="footer-content">
+    <!-- Columna de marca/descripción -->
+    <div class="footer-brand">
+      <a href="#inicio" class="nav-logo" style="margin-bottom:0.5rem;display:inline-flex">
+        <div class="nav-logo-icon">💻</div>
+        CodeAcademy Pro
+      </a>
+      <p>
+        La plataforma más completa en español para aprender programación web
+        y de sistemas desde cero hasta nivel avanzado.
+      </p>
+    </div>
+
+    <!-- Columna: Cursos -->
+    <div class="footer-col">
+      <h4>Cursos</h4>
+      <ul>
+        <li><a href="#cursos">HTML5</a></li>
+        <li><a href="#cursos">CSS3 / Flexbox</a></li>
+        <li><a href="#cursos">JavaScript ES6+</a></li>
+        <li><a href="#cursos">C++ Moderno</a></li>
+      </ul>
+    </div>
+
+    <!-- Columna: Recursos -->
+    <div class="footer-col">
+      <h4>Recursos</h4>
+      <ul>
+        <li><a href="#videos">Videos</a></li>
+        <li><a href="#editor">Editor Online</a></li>
+        <li><a href="#lecciones">Referencia</a></li>
+        <li><a href="#comunidad">Foro</a></li>
+      </ul>
+    </div>
+
+    <!-- Columna: Compañía -->
+    <div class="footer-col">
+      <h4>Compañía</h4>
+      <ul>
+        <li><a href="#">Acerca de</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Contacto</a></li>
+        <li><a href="#">Privacidad</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Parte inferior del footer: copyright y redes -->
+  <div class="footer-bottom">
+    <span>© 2024 CodeAcademy Pro. Hecho con ❤️ para la comunidad hispanohablante.</span>
+
+    <!-- Iconos de redes sociales -->
+    <div class="social-links">
+      <a href="#" class="social-link" title="GitHub"><i class="fab fa-github"></i></a>
+      <a href="#" class="social-link" title="Twitter/X"><i class="fab fa-x-twitter"></i></a>
+      <a href="#" class="social-link" title="Discord"><i class="fab fa-discord"></i></a>
+      <a href="#" class="social-link" title="YouTube"><i class="fab fa-youtube"></i></a>
+    </div>
+  </div>
+</footer>
+
+
+<!-- Botón flotante para volver al inicio -->
+<button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Volver arriba">
+  <i class="fas fa-arrow-up"></i>
+</button>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     JAVASCRIPT — Toda la lógica interactiva de la página
+     Se coloca al FINAL del body para que el HTML ya esté cargado
+     cuando el JS intente acceder a los elementos del DOM
+     ══════════════════════════════════════════════════════════════ -->
+<script>
+/*
+  ╔══════════════════════════════════════════════════════════╗
+  ║  JAVASCRIPT — Guía comentada de cada función             ║
+  ║                                                          ║
+  ║  1. Partículas animadas del login                        ║
+  ║  2. Google Sign-In (onGoogleLogin + triggerGoogleLogin)  ║
+  ║  3. Login demo (loginDemo)                               ║
+  ║  4. Cambio de pestañas de lecciones (showLesson)         ║
+  ║  5. Copiar código al portapapeles (copyCode)             ║
+  ║  6. Editor interactivo (switchEditorTab + runCode)       ║
+  ║  7. Scroll-to-top button                                 ║
+  ║  8. Animaciones de entrada (Intersection Observer)       ║
+  ╚══════════════════════════════════════════════════════════╝
+*/
+
+
+/* ────────────────────────────────────────────────────────────
+   1. PARTÍCULAS ANIMADAS EN EL FONDO DEL LOGIN
+   Se crean dinámicamente con JavaScript para que tengan
+   posiciones, tamaños y velocidades aleatorias
+   ──────────────────────────────────────────────────────────── */
+function crearParticulas() {
+  const contenedor = document.getElementById('particles');
+
+  // Crear 60 partículas
+  for (let i = 0; i < 60; i++) {
+    const particula = document.createElement('span'); // Crea un <span> en JS
+    particula.classList.add('particle');
+
+    // Math.random() devuelve un número entre 0 y 1
+    // Multiplicamos para obtener rangos específicos
+
+    // Posición horizontal aleatoria (0% a 100% del ancho)
+    particula.style.left = Math.random() * 100 + 'vw';
+
+    // Tamaño aleatorio entre 1px y 4px
+    const size = Math.random() * 3 + 1;
+    particula.style.width  = size + 'px';
+    particula.style.height = size + 'px';
+
+    // Duración de la animación: entre 5 y 12 segundos
+    particula.style.animationDuration = (Math.random() * 7 + 5) + 's';
+
+    // Retraso aleatorio para que no empiecen todas a la vez
+    particula.style.animationDelay = (Math.random() * 8) + 's';
+
+    // Color: verde o azul aleatorio
+    particula.style.background = Math.random() > 0.5 ? '#00ff88' : '#00b4ff';
+
+    contenedor.appendChild(particula); // Añade la partícula al DOM
+  }
+}
+
+// Llama a la función cuando carga la página
+crearParticulas();
+
+
+/* ────────────────────────────────────────────────────────────
+   2. GOOGLE SIGN-IN
+   onGoogleLogin es llamado automáticamente por la librería
+   de Google Identity Services cuando el usuario se autentica.
+   Recibe un "credential" que es un JWT (JSON Web Token) con
+   los datos del usuario codificados en Base64.
+
+   NOTA: Para activar el login de Google real necesitas:
+   1. Ir a console.cloud.google.com
+   2. Crear un proyecto → Credentials → OAuth 2.0 Client ID
+   3. Agregar tu dominio en "Authorized JavaScript origins"
+   4. Reemplazar "TU_GOOGLE_CLIENT_ID_AQUI" en el HTML
+   ──────────────────────────────────────────────────────────── */
+function onGoogleLogin(response) {
+  // El credential es un JWT. Para decodificarlo:
+  // 1. Dividir por puntos (header.payload.signature)
+  // 2. Decodificar la parte del payload en Base64
+  const tokenPartes  = response.credential.split('.');
+  const payloadBase64 = tokenPartes[1];
+
+  // atob() decodifica Base64 a texto
+  // JSON.parse() convierte el texto JSON a objeto JavaScript
+  const payload = JSON.parse(atob(payloadBase64));
+
+  // El payload contiene: name, email, picture, sub (ID único)
+  mostrarUsuario(payload.name, payload.picture);
+}
+
+/* Invoca la UI nativa del popup de Google */
+function triggerGoogleLogin() {
+  // google.accounts.id es la API oficial de Google Identity
+  // Si no está cargada (sin client_id real), usamos demo
+  if (typeof google !== 'undefined' && google.accounts) {
+    google.accounts.id.prompt(); // Muestra el popup de Google
+  } else {
+    // Si Google GSI no está disponible, entramos como demo
+    console.warn('Google GSI no disponible. Usando modo demo.');
+    loginDemo();
+  }
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   3. LOGIN DEMO
+   Simula el inicio de sesión sin necesitar Google real.
+   Útil para ver la plataforma sin configurar OAuth.
+   ──────────────────────────────────────────────────────────── */
+function loginDemo() {
+  // Usamos una imagen de avatar de ejemplo
+  const avatarUrl = 'https://ui-avatars.com/api/?name=Demo+User&background=00ff88&color=000&size=80';
+  mostrarUsuario('Demo User', avatarUrl);
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   FUNCIÓN AUXILIAR: mostrarUsuario
+   Oculta el login, muestra el header con el perfil del usuario
+   ──────────────────────────────────────────────────────────── */
+function mostrarUsuario(nombre, avatarSrc) {
+  // 1. Ocultar la pantalla de login con animación CSS
+  document.getElementById('login-screen').classList.add('hidden');
+
+  // 2. Mostrar el avatar y nombre en el header
+  const userInfo   = document.getElementById('user-info');
+  const userAvatar = document.getElementById('user-avatar');
+  const userName   = document.getElementById('user-name');
+
+  userAvatar.src       = avatarSrc; // Cambia la src de la imagen
+  userName.textContent = nombre;    // Cambia el texto del span
+  userInfo.classList.add('visible'); // Hace visible el div
+
+  // 3. Animar las barras de progreso de los cursos
+  // (pequeño delay para que la animación sea visible)
+  setTimeout(animarBarrasProgreso, 800);
+
+  // 4. Ejecutar el código del editor automáticamente
+  setTimeout(runCode, 600);
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   4. CAMBIO DE PESTAÑAS DE LECCIONES
+   Muestra el panel del lenguaje seleccionado y oculta los demás
+   
+   @param {string} lang   - 'html', 'css', 'js' o 'cpp'
+   @param {HTMLElement} btn - El botón que fue clickeado
+   ──────────────────────────────────────────────────────────── */
+function showLesson(lang, btn) {
+  // Ocultar TODOS los paneles
+  const panels = document.querySelectorAll('.lesson-panel');
+  panels.forEach(panel => panel.classList.remove('active'));
+
+  // Quitar la clase "active" de TODOS los botones de pestaña
+  const tabs = document.querySelectorAll('.tab-btn');
+  tabs.forEach(tab => tab.classList.remove('active'));
+
+  // Mostrar el panel del lenguaje seleccionado
+  document.getElementById('lesson-' + lang).classList.add('active');
+
+  // Activar el botón clickeado
+  btn.classList.add('active');
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   5. COPIAR CÓDIGO AL PORTAPAPELES
+   Usa la API moderna navigator.clipboard (requiere HTTPS)
+   
+   @param {string} elementId - ID del elemento <pre> a copiar
+   ──────────────────────────────────────────────────────────── */
+function copyCode(elementId) {
+  // Obtener el texto interno del elemento (sin tags HTML)
+  const texto = document.getElementById(elementId).innerText;
+
+  // navigator.clipboard.writeText devuelve una Promesa
+  navigator.clipboard.writeText(texto)
+    .then(() => {
+      // Éxito: mostrar feedback temporal al usuario
+      const btn = event.target.closest('.copy-btn');
+      const textoOriginal = btn.innerHTML;
+      btn.innerHTML = '<i class="fas fa-check"></i> Copiado';
+      btn.style.color = '#00ff88';
+
+      // Restaurar el texto original después de 2 segundos
+      setTimeout(() => {
+        btn.innerHTML = textoOriginal;
+        btn.style.color = '';
+      }, 2000);
+    })
+    .catch(() => {
+      // Si falla (HTTP sin HTTPS), usar método alternativo
+      const area = document.createElement('textarea');
+      area.value = texto;
+      document.body.appendChild(area);
+      area.select(); // Selecciona el texto
+      document.execCommand('copy'); // Comando de copia (legacy)
+      document.body.removeChild(area);
+      alert('Código copiado al portapapeles');
+    });
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   6. EDITOR INTERACTIVO
+
+   switchEditorTab: cambia entre pestañas HTML/CSS del editor
+   runCode: toma el contenido del textarea y lo inyecta en
+   el iframe como una página HTML completa
+   ──────────────────────────────────────────────────────────── */
+
+// Almacena el código de cada pestaña del editor
+const editorContent = {
+  html: null, // Se inicializa al cargar
+  css: `/* Aquí puedes escribir CSS separado */
+
+body {
+  font-family: Arial, sans-serif;
+}
+`;
+};
+
+/* Cambia la pestaña activa del editor */
+function switchEditorTab(tab) {
+  // Guardar el contenido actual antes de cambiar
+  const tabActual = document.querySelector('.editor-tab.active').id.replace('tab-', '');
+  editorContent[tabActual] = document.getElementById('editor-area').value;
+
+  // Activar la nueva pestaña visualmente
+  document.querySelectorAll('.editor-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+
+  // Cargar el contenido de la nueva pestaña
+  if (editorContent[tab] !== null) {
+    document.getElementById('editor-area').value = editorContent[tab];
+  }
+}
+
+/*
+  runCode: ejecuta el código HTML del editor.
+  
+  Método: inyectar el contenido directamente en el srcdoc del iframe.
+  - srcdoc permite escribir HTML completo como una cadena de texto
+  - sandbox="allow-scripts" permite ejecutar JS dentro del iframe
+    pero lo aísla del resto de la página (por seguridad)
+*/
+function runCode() {
+  const codigo = document.getElementById('editor-area').value;
+  const preview = document.getElementById('preview-frame');
+
+  // srcdoc inyecta HTML directamente sin necesitar una URL
+  preview.srcdoc = codigo;
+}
+
+// También ejecutar en tiempo real mientras se escribe (debounce)
+let timerEjecucion;
+document.getElementById('editor-area').addEventListener('input', () => {
+  // Debounce: esperar 500ms después de que el usuario deja de escribir
+  // Evita ejecutar el código en cada pulsación de tecla
+  clearTimeout(timerEjecucion);
+  timerEjecucion = setTimeout(runCode, 500);
+});
+
+
+/* ────────────────────────────────────────────────────────────
+   7. BOTÓN SCROLL-TO-TOP
+   Aparece cuando el usuario baja más de 400px de la página
+   ──────────────────────────────────────────────────────────── */
+const scrollTopBtn = document.getElementById('scroll-top');
+
+// window.addEventListener('scroll') se dispara cada vez que el usuario hace scroll
+window.addEventListener('scroll', () => {
+  // window.scrollY = cuántos píxeles se ha desplazado verticalmente
+  if (window.scrollY > 400) {
+    scrollTopBtn.classList.add('visible');   // Muestra el botón
+  } else {
+    scrollTopBtn.classList.remove('visible'); // Oculta el botón
+  }
+});
+
+
+/* ────────────────────────────────────────────────────────────
+   8. ANIMACIONES DE ENTRADA CON INTERSECTION OBSERVER
+   
+   IntersectionObserver es una API del navegador que detecta
+   cuándo un elemento entra en el viewport (área visible).
+   
+   Ventaja sobre scroll events: es más eficiente porque no
+   necesita calcular posiciones en cada frame.
+   ──────────────────────────────────────────────────────────── */
+const observador = new IntersectionObserver(
+  (entradas) => {
+    // entradas = array de elementos observados que cambiaron de estado
+    entradas.forEach(entrada => {
+      if (entrada.isIntersecting) {
+        // El elemento entró en el viewport: agregar clase "visible"
+        entrada.target.classList.add('visible');
+
+        // Dejar de observar este elemento (la animación ya ocurrió)
+        observador.unobserve(entrada.target);
+      }
+    });
+  },
+  {
+    threshold: 0.1, // Activar cuando el 10% del elemento sea visible
+    rootMargin: '0px 0px -50px 0px' // Margen inferior: espera un poco más
+  }
+);
+
+// Seleccionar todos los elementos con clase "fade-in" y observarlos
+document.querySelectorAll('.fade-in').forEach(el => observador.observe(el));
+
+
+/* ────────────────────────────────────────────────────────────
+   FUNCIÓN: ANIMAR BARRAS DE PROGRESO
+   Se llama después del login para animar las barras de progreso
+   de los cursos. Usa CSS transitions.
+   ──────────────────────────────────────────────────────────── */
+function animarBarrasProgreso() {
+  // Las barras tienen width: 0% por defecto en el CSS
+  // Al agregar el ancho aquí, la transición CSS lo anima
+  const barras = document.querySelectorAll('.progress-fill');
+  const porcentajes = ['0%', '0%', '0%', '0%']; // Sin progreso inicial
+
+  barras.forEach((barra, i) => {
+    barra.style.width = porcentajes[i] || '0%';
+  });
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   INICIALIZACIÓN AL CARGAR LA PÁGINA
+   Se ejecuta cuando el DOM está completamente cargado
+   ──────────────────────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+  // Guardar el contenido inicial del editor
+  editorContent.html = document.getElementById('editor-area').value;
+
+  console.log('%c CodeAcademy Pro 🚀', 'color:#00ff88; font-size:20px; font-weight:bold;');
+  console.log('%c Plataforma de enseñanza de programación', 'color:#00b4ff');
+  console.log('%c Lenguajes: HTML • CSS • JavaScript • C++', 'color:#7a7a9a');
+});
+</script>
+
+</body>
+</html>
